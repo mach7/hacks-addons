@@ -3,16 +3,17 @@ name: Repository Updater
 
 # yamllint disable-line rule:truthy
 on:
-  repository_dispatch:
-    types: ["update"]
+  workflow_dispatch:
 
 jobs:
   workflows:
+    if: github.actor == 'mach7'
     uses: hassio-addons/workflows/.github/workflows/repository-updater.yaml@main
     secrets:
       UPDATER_TOKEN: ${{ secrets.UPDATER_TOKEN }}
 
   announce:
+    if: github.actor == 'mach7'
     name: Announce add-on update
     needs: workflows
     runs-on: ubuntu-latest
